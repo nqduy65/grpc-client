@@ -10,7 +10,40 @@ type Book {
   author: String!
 }
 
+type listBook {
+  bookList: [Book!]!
+}
+
 type Query {
-  getAllBook: [Book!]!
+  getAllBook(query: SearchBookDto): listBook!
   getBookById(id: Int!): Book!
+}
+
+input SearchBookDto {
+  bookName: String
+  publishBy: String
+  publishYear: Int
+  author: String
+  limit: Int
+}
+
+type Mutation {
+  createBook(createBookDto: CreateBookInput!): Book!
+  updateBook(id: Int!, updateBookInput: UpdateBookInput!): Book!
+  removeBook(id: Int!): Book!
+}
+
+input CreateBookInput {
+  bookName: String!
+  publishBy: String!
+  publishYear: Int!
+  author: String!
+}
+
+input UpdateBookInput {
+  bookName: String
+  publishBy: String
+  publishYear: Int
+  author: String
+  id: Int!
 }

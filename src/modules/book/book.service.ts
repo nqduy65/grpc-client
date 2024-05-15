@@ -5,6 +5,8 @@ import {
   FindBookByIdDto,
   BookServiceClient,
   CreateBookDto,
+  FindBookDto,
+  UpdateBookDto,
 } from '../../proto/book';
 import { ClientGrpc } from '@nestjs/microservices';
 import { lastValueFrom } from 'rxjs';
@@ -28,19 +30,21 @@ export class BookService implements OnModuleInit {
     return lastValueFrom(this.bookService.create(createBookDto));
   }
 
-  findAll() {
-    return `This action returns all book`;
+  findAll(searchBookDto?: FindBookDto) {
+    return lastValueFrom(this.bookService.findAll(searchBookDto));
   }
 
-  // findOne(id: number) {
-  //   return `This action returns a #${id} book`;
-  // }
+  update(data: FindBookByIdDto, updateBookInput: UpdateBookDto) {
+    return lastValueFrom(this.bookService.update(updateBookInput));
+  }
 
-  // update(id: number, updateBookInput: UpdateBookInput) {
-  //   return `This action updates a #${id} book`;
-  // }
-
-  // remove(id: number) {
-  //   return `This action removes a #${id} book`;
-  // }
+  async remove(data: FindBookByIdDto) {
+    try {
+      const res = lastValueFrom(this.bookService.remove(data));
+      return res;
+    } catch (error) {
+      console.log('catch');
+      console.log(error);
+    }
+  }
 }
